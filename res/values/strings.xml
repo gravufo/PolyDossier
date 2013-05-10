@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PolyDossier</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="welcome_message">Bienvenue au dossier étudiant de l\'École Polytechnique de Montréal.</string>
+    <string name="login_auto">Se connecter automatiquement</string>
+    <string name="hint_username">Code d\'accès</string>
+    <string name="hint_password">Mot de passe</string>
+    <string name="hint_birthdate">Date de naissance</string>
+    <string name="btn_login">Connexion</string>
+    <string name="btn_cancel">Effacer</string>
+
+</resources>
