@@ -61,7 +61,7 @@
         android:text="@string/btn_cancel" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/welcomeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -74,7 +74,7 @@
         android:id="@+id/txtUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/welcomeMessage"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:ems="10"

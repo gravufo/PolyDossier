@@ -3,7 +3,6 @@ package org.gravufo.polydossier;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +19,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -34,6 +34,10 @@ public class LoginScreen extends Activity
 	EditText txtBirthdate;
 	EditText txtPassword;
 	CheckBox checkBoxAutoLogin;
+	
+	/**
+	 * Regex to verify the data against
+	 */
 	Pattern p = Pattern.compile("<input type=\"hidden\" name=\"(.*?)\" value=\"(.*?)\">");
 
 	@Override
@@ -71,8 +75,7 @@ public class LoginScreen extends Activity
 					String responseBody = "";
 					Matcher m;
 					Looper.prepare();
-					// do
-					// {
+
 					Log.i("info", "Attempting login");
 
 					// Create a new HttpClient and Post Header
@@ -84,6 +87,7 @@ public class LoginScreen extends Activity
 					nameValuePairs.add(new BasicNameValuePair("code", txtUsername.getText().toString()));
 					nameValuePairs.add(new BasicNameValuePair("nip", txtPassword.getText().toString()));
 					nameValuePairs.add(new BasicNameValuePair("naissance", txtBirthdate.getText().toString()));
+					
 					try
 					{
 						httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -110,14 +114,13 @@ public class LoginScreen extends Activity
 
 					m = p.matcher(responseBody);
 
-					// } while (!m.lookingAt());
-					if (m.find())
+					if (m.find()) // Login success
 					{
 						Log.i("info", "Login successful");
 
 						onLoginSuccess(m);
 					}
-					else
+					else // Failed login
 					{
 						LoginScreen.this.runOnUiThread(new Runnable()
 						{
@@ -150,7 +153,7 @@ public class LoginScreen extends Activity
 	 */
 	private void onLoginSuccess(Matcher data)
 	{
-		LinkedList<String> sessionValues = new LinkedList<String>();
+		ArrayList<String> sessionValues = new ArrayList<String>();
 		
 		data.reset();
 		int i = 0;
@@ -161,9 +164,17 @@ public class LoginScreen extends Activity
 		}
 
 		Log.i("info", sessionValues.get(3));
-
+		
+		// Go to the main menu while passing it the session values
+		Intent mainMenu = new Intent(LoginScreen.this, MainMenu.class);
+		mainMenu.putExtra("org.gravufo.polydossier.sessionValues", sessionValues);
+		startActivity(mainMenu);
 	}
 
+	/**
+	 * Function that will separate a long log message into multiple shorter ones.
+	 * @param str
+	 */
 	public static void longInfo(String str)
 	{
 		if (str.length() > 4000)
